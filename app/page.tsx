@@ -1,9 +1,13 @@
-import { Button } from "@/components/ui/button";
+import { getStrapiData } from "@/lib/strapi";
 
-export default function Home() {
+export default async function Home() {
+  const strapiData = await getStrapiData('/api/home-page');
+
+  const { title, description } = strapiData.data;
   return (
-    <main className="flex">
-      <Button variant="default">Este es un botón.</Button>
+    <main className="container mx-auto py-6">
+      <h1 className="text-3xl font-bold ">{title}</h1>
+      <p className="text-gray-700">{description}</p>
     </main>
   );
 }
