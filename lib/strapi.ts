@@ -1,5 +1,31 @@
+import qs from 'qs';
+
 const BASE_URL = "http://localhost:1337";
 
+const QUERY_HOME_PAGE = {
+    populate: {
+        sections: {
+            on: {
+                'layout.hero-section': {
+                    populate: {
+                        image: {
+                            fields: ["url", "alternativeText"]
+                        },
+                        link: {
+                            populate: true
+                        }
+                    }
+                }
+            }
+        }
+    }
+};
+
+export async function getHomePage() {
+    const query = qs.stringify(QUERY_HOME_PAGE);
+    const response = await getStrapiData(`/api/home-page?${query}`);
+    return response?.data;
+};
 
 // With this function we can avoid writting fetch in every component. 
 // We just need to import this function and call it with the url of the data we want to fetch.
